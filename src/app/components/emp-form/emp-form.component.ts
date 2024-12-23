@@ -42,6 +42,19 @@ export class EmpFormComponent {
   public onEndDateChange(event: any) {
     const selectedDate = event.detail.value;
     this.employee.endDate = selectedDate;
+    const startDate = new Date(this.employee.startDate);
+    const endDate = new Date(event.detail.value);
+    if (endDate < startDate) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Date',
+        text: 'End date cannot be earlier than start date.',
+        confirmButtonText: 'OK',
+      });
+      this.employee.endDate = '';
+    } else {
+      this.employee.endDate = event.detail.value;
+    }
   }
 
   public async saveEmployee() {
