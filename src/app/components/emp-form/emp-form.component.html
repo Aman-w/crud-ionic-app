@@ -1,0 +1,154 @@
+<ion-content style="height: 100%;">
+    <ion-header>
+        <ion-toolbar class="custom-toolbar">
+            <ion-title>{{ isEditMode ? 'Edit Employee Details' : 'Add Employee Details' }}</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <form>
+        <ion-card>
+            <ion-item>
+                <ion-icon name="person-circle-outline" slot="start" class="calendar-icon"></ion-icon>
+                <ion-input placeholder="Employee name" [(ngModel)]="employee.name" name="name" required minlength="3">
+                </ion-input>
+            </ion-item>
+        </ion-card>
+
+        <ion-card>
+            <ion-item>
+                <ion-icon name="briefcase-outline" slot="start" class="calendar-icon"></ion-icon>
+                <ion-select placeholder="Select role" [(ngModel)]="employee.role" name="role" required
+                    interface="action-sheet">
+                    <ion-select-option value="admin">Admin</ion-select-option>
+                    <ion-select-option value="developer">Developer</ion-select-option>
+                    <ion-select-option value="manager">Manager</ion-select-option>
+                </ion-select>
+            </ion-item>
+        </ion-card>
+
+        <ion-item>
+            <ion-grid class="date-selector-grid">
+                <ion-row class="date-selector-row">
+                    <ion-col class="date-col">
+                        <div class="date-box">
+                            <ion-icon name="calendar-number-outline" class="calendar-icon"></ion-icon>
+                            <ion-datetime-button datetime="startDate" class="dateTime-btn" (click)="openModal('start')"
+                                expand="block" style="font-size: 108px;">
+                            </ion-datetime-button>
+                        </div>
+                    </ion-col>
+                    <ion-col class="arrow-col">
+                        <div class="arrow-box">
+                            <ion-icon name="arrow-forward" class="arrow-icon"></ion-icon>
+                        </div>
+                    </ion-col>
+                    <ion-col class="date-col">
+                        <div class="date-box">
+                            <ion-icon name="calendar-number-outline" class="calendar-icon"></ion-icon>
+                            <ion-datetime-button datetime="endDate" class="dateTime-btn" (click)="openModal('end')"
+                                expand="block">
+                            </ion-datetime-button>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+
+            <ion-modal [keepContentsMounted]="true" [backdropDismiss]="true" cssClass="custom-modal" id="start-modal">
+                <ng-template>
+                    <ion-row>
+                        <ion-col>
+                            <ion-button class="custom-button" (click)="selectDate('today', 'start', 1)"
+                                [class.clicked]="clickedButton === 1">
+                                Today
+                            </ion-button>
+                        </ion-col>
+                        <ion-col>
+                            <ion-button class="custom-button" (click)="selectDate('nextMonday', 'start', 2)"
+                                [class.clicked]="clickedButton === 2">
+                                Next Monday
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-button class="custom-button" (click)="selectDate('nextTuesday', 'start', 3)"
+                                [class.clicked]="clickedButton === 3">
+                                Next Tuesday
+                            </ion-button>
+                        </ion-col>
+                        <ion-col>
+                            <ion-button class="custom-button" (click)="selectDate('afterOneWeek', 'start', 4)"
+                                [class.clicked]="clickedButton === 4">
+                                After 1 week
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                    <ion-datetime id="startDate" presentation="date"
+                        [value]="isEditMode ? employee.startDate : '2024-12-01T00:00:00.000Z'"
+                        (ionChange)="onStartDateChange($event)">
+                        <span slot="title"></span>
+                    </ion-datetime>
+                    <ion-row class="button-row">
+                        <ion-col class="button-col">
+                            <ion-button class="custom-button" (click)="closeModal()">Cancel</ion-button>
+                            <ion-button class="save-btn" (click)="saveDate('start')">Save</ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ng-template>
+            </ion-modal>
+
+            <ion-modal [keepContentsMounted]="true" [backdropDismiss]="true" cssClass="custom-modal" id="end-modal">
+                <ng-template>
+                    <ion-row>
+                        <ion-col>
+                            <ion-button class="custom-button" (click)="selectDate('today', 'end', 1)"
+                                [class.clicked]="clickedButton === 1">
+                                Today
+                            </ion-button>
+                        </ion-col>
+                        <ion-col>
+                            <ion-button class="custom-button" (click)="selectDate('nextMonday', 'end', 2)"
+                                [class.clicked]="clickedButton === 2">
+                                Next Monday
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row>
+                        <ion-col>
+                            <ion-button class="custom-button" (click)="selectDate('nextTuesday', 'end', 3)"
+                                [class.clicked]="clickedButton === 3">
+                                Next Tuesday
+                            </ion-button>
+                        </ion-col>
+                        <ion-col>
+                            <ion-button class="custom-button" (click)="selectDate('afterOneWeek', 'end', 4)"
+                                [class.clicked]="clickedButton === 4">
+                                After 1 week
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                    <ion-datetime id="endDate" presentation="date"
+                        [value]="isEditMode ? employee.endDate : '2024-12-01T00:00:00.000Z'"
+                        (ionChange)="onEndDateChange($event)">
+                        <span slot="title"></span>
+                    </ion-datetime>
+                    <ion-row class="button-row">
+                        <ion-col class="button-col">
+                            <ion-button class="custom-button" (click)="closeModal()">Cancel</ion-button>
+                            <ion-button class="save-btn" (click)="saveDate('end')">Save</ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ng-template>
+            </ion-modal>
+        </ion-item>
+    </form>
+
+    <ion-footer>
+        <div class="line"></div>
+        <div class="button-group">
+            <ion-button class="custom-button" (click)="resetForm()">Cancel</ion-button>
+            <ion-button class="save-btn" (click)="saveEmployee()">Save</ion-button>
+        </div>
+    </ion-footer>
+</ion-content>

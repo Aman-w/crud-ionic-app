@@ -1,0 +1,73 @@
+<ion-header>
+    <ion-toolbar class="toolbar">
+        <ion-title class="alignment">Employee List</ion-title>
+    </ion-toolbar>
+    <div class="swipe-delete-container">
+        <span class="swipe-text-left">Swipe right to edit</span>
+        <span class="swipe-text-right">Swipe left to delete</span>
+    </div>
+</ion-header>
+
+<ion-content>
+    <ion-toolbar>
+        <ion-title class="align">Current employees</ion-title>
+    </ion-toolbar>
+    <div class="scrollable">
+        <ion-list>
+            <ion-item-sliding *ngFor="let employee of employees()">
+                <ion-item>
+                    <ion-label>
+                        <h2 class="employee-name">{{ employee.name | titlecase }}</h2>
+                        <p class="employee-role">{{ employee.role | titlecase }}</p>
+                        <p class="employee-date">{{ employee.startDate | date: 'dd MMM, yyyy' }} - {{ employee.endDate | date: 'dd MMM, yyyy' }}</p>
+                      </ion-label>                      
+                </ion-item>
+
+                <ion-item-options side="end">
+                    <ion-item-option class="custom-delete-option" (click)="confirmDelete(employee.id, employee.name)">
+                        <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+                    </ion-item-option>
+                </ion-item-options>
+
+                <ion-item-options side="start">
+                    <ion-item-option class="custom-edit-option" (click)="editEmployee(employee)">
+                        <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-list>
+    </div>
+
+    <ion-toolbar>
+        <ion-title class="align">Previous employees</ion-title>
+    </ion-toolbar>
+    <div class="scrollable">
+        <ion-list>
+            <ion-item-sliding *ngFor="let employee of employees()">
+                <ion-item *ngIf="isEmpPrev(employee.endDate)">
+                    <ion-label>
+                        <h2 class="employee-name">{{ employee.name }}</h2>
+                        <p class="employee-role">{{ employee.role }}</p>
+                        <p class="employee-date">{{ employee.startDate | date: 'dd MMM, yyyy' }} - {{ employee.endDate |
+                            date: 'dd MMM, yyyy' }}</p>
+                    </ion-label>
+                </ion-item>
+                <ion-item-options side="end">
+                    <ion-item-option class="custom-delete-option" (click)="confirmDelete(employee.id, employee.name)">
+                        <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+                    </ion-item-option>
+                </ion-item-options>
+                <ion-item-options side="start">
+                    <ion-item-option class="custom-edit-option" (click)="editEmployee(employee)">
+                        <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-list>
+    </div>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="navigateToForm()" style="--background: #1DA1F2;">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ion-content>

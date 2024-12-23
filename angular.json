@@ -27,10 +27,16 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "node_modules/ionicons/dist/ionicons/svg",
+                  "output": "./svg"
+              }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/sweetalert2/dist/sweetalert2.min.css"
             ],
             "scripts": []
           },
@@ -100,5 +106,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "ec3095f8-b708-4db0-b3b3-99fb00a5151f"
   }
 }
