@@ -1,14 +1,25 @@
-<ion-header>
+<ion-header >
     <ion-toolbar class="toolbar">
         <ion-title class="alignment">Employee List</ion-title>
     </ion-toolbar>
-    <div class="swipe-delete-container">
+    <div *ngIf="employees().length === 0" class="swipe-delete-container">
         <span class="swipe-text-left">Swipe right to edit</span>
         <span class="swipe-text-right">Swipe left to delete</span>
     </div>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="employees().length === 0">
+    <ion-img src="assets/images/emptyList.jpg" alt="No employees"></ion-img>
+    <p class="empty-list-text">No current employees found. Please add new employees.</p>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="navigateToForm()" style="--background: #1DA1F2;">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ion-content>
+
+<ion-content *ngIf="employees().length > 0">
     <ion-toolbar>
         <ion-title class="align">Current employees</ion-title>
     </ion-toolbar>
